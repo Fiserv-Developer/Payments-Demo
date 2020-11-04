@@ -1,0 +1,35 @@
+.frame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    border:solid lightgrey 1px;
+    border-radius: 9px;
+    height:100vh;
+
+}
+
+.column1 {
+
+    flex:5;
+    height:100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    border-right: solid lightgrey 1px;
+}
+
+.column2 {
+    flex:5;
+    height:100%;
+
+
+}
+
+.image {
+    width:50%;
+}
