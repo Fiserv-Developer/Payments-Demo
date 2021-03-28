@@ -6,7 +6,7 @@ var CryptoJS = require("crypto-js");
 const {v4: uuidv4} = require("uuid");
 
 //These are the API keys and token for generating an encrypted message
-const key = "API Key goes hre";
+const key = "API Key goes here";
 const secret = "Secret goes here";
 const url = "https://prod.emea.api.fiservapps.com/sandbox/ipp/payments-gateway/v2/payments/"
 
