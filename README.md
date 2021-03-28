@@ -14,6 +14,7 @@
 - Open 2 terminals, one in 'api' and one in 'www'
 - Run 'yarn install' inside of 'www'
 - Run 'npm install' inside of 'api'
+- Run 'npm install uuid' inside of 'api'
 
 ## Running
 
