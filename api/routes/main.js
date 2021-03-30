@@ -3,15 +3,16 @@ const express = require("express");
 const router = express.Router();
 var request = require("request");
 var CryptoJS = require("crypto-js");
+const {v4: uuidv4} = require("uuid");
 
 //These are the API keys and token for generating an encrypted message
-const key = "API Key goes hre";
+const key = "API Key goes here";
 const secret = "Secret goes here";
 const url = "https://prod.emea.api.fiservapps.com/sandbox/ipp/payments-gateway/v2/payments/"
 
 //When ever you communicate with IPG you need to encrypt the body of the message. This function modifies the API call to include the correct message signatures. 
 function fiservEncode(method, url, body, callback) {
-  var ClientRequestId = Math.floor(Math.random() * 100000000 + 1);
+  var ClientRequestId = uuidv4();
   var time = new Date().getTime();
   var requestBody = JSON.stringify(body);
   if(method === 'GET') {
