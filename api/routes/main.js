@@ -3,16 +3,17 @@ const express = require("express");
 const router = express.Router();
 var request = require("request");
 var CryptoJS = require("crypto-js");
-const {v4: uuidv4} = require("uuid");
+const uuid = require("uuid");
 
 //These are the API keys and token for generating an encrypted message
-const key = "API Key goes here";
-const secret = "Secret goes here";
-const url = "https://prod.emea.api.fiservapps.com/sandbox/ipp/payments-gateway/v2/payments/"
+const key = "WddC6uNId0RHYn61aivKMBiIQFyHHPqx"; //API Key goes here
+const secret = "Z0hSFRhVVVJ9vZWt"; //Secret goes here
+const url = "https://prod.emea.api.fiservapps.com/sandbox/ipp/payments-gateway/v2/payments/";
+
 
 //When ever you communicate with IPG you need to encrypt the body of the message. This function modifies the API call to include the correct message signatures. 
 function fiservEncode(method, url, body, callback) {
-  var ClientRequestId = uuidv4();
+  var ClientRequestId = uuid();
   var time = new Date().getTime();
   var requestBody = JSON.stringify(body);
   if(method === 'GET') {
@@ -34,16 +35,14 @@ function fiservEncode(method, url, body, callback) {
       "Content-Type": "application/json",
       "Client-Request-Id": ClientRequestId,
       "Api-Key": key,
-      Timestamp: time,
+      "Timestamp": time.toString(),
       "Message-Signature": computedHmac
     },
     body: JSON.stringify(body),
   };
 
-  request(options, function (error, response) {
-    if (error) throw new Error(error);
-    callback(options);
-  });
+
+  callback(options);
 }
 
 //Step 2: Create Primary Transaction (Only performs a standard payment that requests 3DSecure!)
@@ -73,6 +72,7 @@ router.post("/payments", async (req, res) => {
       request(options, function (error, paymentResponse) {
         if (error) throw new Error(error);
         let paymentData = JSON.parse(paymentResponse.body);
+      
         return res.status(200).json({
           requestName: "Payment POST - Creating the payment request",
           ...paymentData
@@ -95,7 +95,7 @@ router.patch("/payments/:transactionId", async (req, res) => {
       methodNotificationStatus: "RECEIVED" // This is what we update
     },
     (options) => {
-      //Reminder, it's not seeing the request Type
+      //Reminder, it's not seeing the request type
       request(options, function (error, paymentResponse) {
         if (error) throw new Error(error);
         let paymentData = JSON.parse(paymentResponse.body);
@@ -114,6 +114,7 @@ router.patch("/payments/:transactionId", async (req, res) => {
 //We then redirect the user back to the website and show them the result of the transaction.
 //Go to step 7 on the UI
 router.post("/payments/3ds", async (req, res) => {
+  console.log(req);
   fiservEncode(
     "PATCH",
     url + req.query.referencedTransactionId,
