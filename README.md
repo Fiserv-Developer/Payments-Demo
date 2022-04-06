@@ -2,7 +2,7 @@
 
 ## API Keys
 
-- Visit our [Developer Platform](https://developer.firstdata.eu/user/me/apps) and generate a sandbox key.
+- Visit our [Developer Platform](https://portal.fiserv.dev/) and generate a sandbox key.
 - Take a note of this key and your secret key as you'll need it later
 - Update your secret and API key within '/api/routes/main.js'
 - Please note that you'll be running this on our production endpoint as our sandbox environment is a like for like (although no transactions will be executed!)
